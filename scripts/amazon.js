@@ -27,7 +27,7 @@ products.forEach((product) => {
       </div>
 
       <div class="product-quantity-container">
-        <select>
+        <select class="select-value">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -44,11 +44,11 @@ products.forEach((product) => {
       <div class="product-spacer"></div>
 
       <div class="added-to-cart">
-        <img src="">
+        <img src="images/icons/checkmark.png">
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary">
+      <button class="add-to-cart-button button-primary js-add-to-cart-button">
         Add to Cart
       </button>
     </div>
@@ -56,3 +56,11 @@ products.forEach((product) => {
 });
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
+
+const addToCartBtn = document.querySelectorAll(".js-add-to-cart-button");
+const selectValue = document.querySelector(".select-value");
+addToCartBtn.forEach((addToCart) => {
+  addToCart.addEventListener("click", () => {
+    console.log(selectValue.value);
+  });
+});
