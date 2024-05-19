@@ -27,7 +27,7 @@ products.forEach((product) => {
       </div>
 
       <div class="product-quantity-container">
-        <select class="select-value">
+        <select class="js-select-value">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -57,10 +57,13 @@ products.forEach((product) => {
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-const addToCartBtn = document.querySelectorAll(".js-add-to-cart-button");
-const selectValue = document.querySelector(".select-value");
-addToCartBtn.forEach((addToCart) => {
-  addToCart.addEventListener("click", () => {
-    console.log(selectValue.value);
+document
+  .querySelectorAll(".js-add-to-cart-button")
+  .forEach((addToCartBtn, i) => {
+    addToCartBtn.addEventListener("click", () => {
+      const cartQuantity = document.querySelector(".js-cart-quantity");
+      cartQuantity.innerHTML =
+        Number(cartQuantity.innerHTML) + Number(selectValue[i].value);
+    });
   });
-});
+const selectValue = document.querySelectorAll(".js-select-value");
