@@ -1,4 +1,5 @@
 let productsHTML = "";
+const checkouts = [];
 
 products.forEach((product) => {
   const { image, name, rating, priceCents } = product;
@@ -43,7 +44,7 @@ products.forEach((product) => {
 
       <div class="product-spacer"></div>
 
-      <div class="added-to-cart">
+      <div class="added-to-cart js-added-to-cart">
         <img src="images/icons/checkmark.png">
         Added
       </div>
@@ -56,14 +57,24 @@ products.forEach((product) => {
 });
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
-
+const addedToCart = document.querySelectorAll(".js-added-to-cart");
+let timeoutID;
 document
   .querySelectorAll(".js-add-to-cart-button")
   .forEach((addToCartBtn, i) => {
     addToCartBtn.addEventListener("click", () => {
-      const cartQuantity = document.querySelector(".js-cart-quantity");
-      cartQuantity.innerHTML =
-        Number(cartQuantity.innerHTML) + Number(selectValue[i].value);
+      checkouts.push({
+        name: products[i].name,
+        priceCents: products[i].priceCents,
+        image: products[i].image,
+      });
+
+      clearTimeout(timeoutID);
+      addedToCart[i].style.opacity = 1;
+      timeoutID = setTimeout(() => {
+        addedToCart[i].style.opacity = 0;
+      }, 3000);
+
+      localStorage.setItem("item", JSON.stringify(checkouts));
     });
   });
-const selectValue = document.querySelectorAll(".js-select-value");
