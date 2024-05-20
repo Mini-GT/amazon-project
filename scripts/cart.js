@@ -81,3 +81,4 @@ document.querySelector(".js-order-summary").innerHTML = checkoutsHTML;
   console.log(checkoutProducts);
   console.log("checkoutProducts");
 }, 5000); */
+console.log("merge test");
