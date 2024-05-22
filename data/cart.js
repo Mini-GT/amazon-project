@@ -1,8 +1,15 @@
-const checkouts = JSON.parse(localStorage.getItem("item"));
+const cart = JSON.parse(localStorage.getItem("checkoutItems")) || [
+  {
+    name: "sad",
+  },
+  {
+    name: "das",
+  },
+];
 
 let checkoutsHTML = "";
 
-checkouts.forEach((checkoutItem) => {
+cart.forEach((checkoutItem) => {
   const { name, image, priceCents } = checkoutItem;
 
   checkoutsHTML += `
@@ -75,10 +82,5 @@ checkouts.forEach((checkoutItem) => {
   `;
 });
 
-document.querySelector(".js-order-summary").innerHTML = checkoutsHTML;
-
-/* setInterval(() => {
-  console.log(checkoutProducts);
-  console.log("checkoutProducts");
-}, 5000); */
-console.log("merge test");
+/* document.querySelector(".js-order-summary").innerHTML = checkoutsHTML;
+ */

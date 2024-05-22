@@ -1,5 +1,4 @@
 let productsHTML = "";
-const checkouts = [];
 
 products.forEach((product) => {
   const { image, name, rating, priceCents } = product;
@@ -49,7 +48,7 @@ products.forEach((product) => {
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary js-add-to-cart-button">
+      <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-name="${name}">
         Add to Cart
       </button>
     </div>
@@ -58,23 +57,53 @@ products.forEach((product) => {
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 const addedToCart = document.querySelectorAll(".js-added-to-cart");
-let timeoutID;
-document
-  .querySelectorAll(".js-add-to-cart-button")
-  .forEach((addToCartBtn, i) => {
-    addToCartBtn.addEventListener("click", () => {
-      checkouts.push({
-        name: products[i].name,
-        priceCents: products[i].priceCents,
-        image: products[i].image,
+const timeoutID = [];
+
+document.querySelectorAll(".js-add-to-cart-button").forEach((addToCartBtn) => {
+  addToCartBtn.addEventListener("click", () => {
+    const productName = addToCartBtn.dataset.productName;
+
+    if (checkCart(productName) === -1) {
+      cart.push({
+        name: productName,
+        quantity: 1,
       });
+    } else {
+      const index = checkCart(productName);
+      cart[index].quantity;
+    }
 
-      clearTimeout(timeoutID);
-      addedToCart[i].style.opacity = 1;
-      timeoutID = setTimeout(() => {
-        addedToCart[i].style.opacity = 0;
-      }, 3000);
+    /* function checkCart(productName) {
+      return cart.some((cart) => cart.name === productName);
+    } */
+    /* cart.push({
+    
+      productName,
+      quantity: 1,
+      //priceCents: products[index].priceCents,
+      //image: products[index].image,
+    }); */
+    console.log(cart);
+    /* localStorage.setItem("checkoutItems", JSON.stringify(cart));
 
-      localStorage.setItem("item", JSON.stringify(checkouts));
-    });
+      clearTimeout(timeoutID[index]);
+      addedToCart[index].style.opacity = 1;
+      timeoutID[index] = setTimeout(() => {
+        addedToCart[index].style.opacity = 0;
+      }, 3000); */
   });
+});
+
+function checkCart(productName) {
+  const index = cart.findIndex((cartName) => {
+    cartName.name === productName;
+  });
+  
+  if (index !== -1) {
+    return index;
+  } else {
+    return -1;
+  }
+}
+
+console.log(checkCart("sad"));
