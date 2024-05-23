@@ -57,13 +57,17 @@ products.forEach((product) => {
 });
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
-const addedToCart = document.querySelectorAll(".js-added-to-cart");
+
+let cartQuantity = 0;
 let timeoutID = [];
 
 document
   .querySelectorAll(".js-add-to-cart-button")
   .forEach((addToCartBtn, index) => {
     addToCartBtn.addEventListener("click", () => {
+      const addedToCart = document.querySelectorAll(".js-added-to-cart");
+      const selectedElem = document.querySelectorAll(".js-select-value");
+      const selectedValue = selectedElem[index].selectedIndex + 1;
       const products = addToCartBtn.dataset;
       const { productId, productName } = products;
       //const productId = addToCartBtn.dataset.productId;
@@ -72,14 +76,16 @@ document
         cart.push({
           id: productId,
           name: productName,
-          quantity: 1,
+          quantity: selectedValue,
         });
       } else {
         const index = checkCart(cart, productId);
-        cart[index].quantity++;
+        cart[index].quantity += selectedValue;
       }
 
-      localStorage.setItem("checkoutItems", JSON.stringify(cart));
+      document.querySelector(".js-cart-quantity").innerHTML =
+        renderCartQuantity();
+      //localStorage.setItem("checkoutItems", JSON.stringify(cart));
 
       clearTimeout(timeoutID[index]);
       addedToCart[index].style.opacity = 1;
@@ -92,4 +98,12 @@ document
 function checkCart(cart, productId) {
   const index = cart.findIndex((cartProduct) => cartProduct.id === productId);
   return index !== -1 ? index : -1;
+}
+
+function renderCartQuantity() {
+  let total = 0;
+  cart.forEach((item) => {
+    total += item.quantity;
+  });
+  return total;
 }
