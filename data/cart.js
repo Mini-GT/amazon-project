@@ -1,11 +1,4 @@
-const cart = JSON.parse(localStorage.getItem("checkoutItems")) || [
-  {
-    name: "sad",
-  },
-  {
-    name: "das",
-  },
-];
+const cart = JSON.parse(localStorage.getItem("checkoutItems")) || [];
 
 let checkoutsHTML = "";
 

@@ -1,7 +1,8 @@
 let productsHTML = "";
 
 products.forEach((product) => {
-  const { image, name, rating, priceCents } = product;
+  const { id, image, name, rating, priceCents } = product;
+  const priceDollar = (priceCents / 100).toFixed(2);
 
   productsHTML += `
     <div class="product-container">
@@ -23,7 +24,7 @@ products.forEach((product) => {
       </div>
 
       <div class="product-price">
-        $${(priceCents / 100).toFixed(2)}
+        $${priceDollar}
       </div>
 
       <div class="product-quantity-container">
@@ -48,7 +49,7 @@ products.forEach((product) => {
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-name="${name}">
+      <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-name="${name}" data-product-price="${priceDollar}" data-product-Id="${id}">
         Add to Cart
       </button>
     </div>
@@ -57,53 +58,38 @@ products.forEach((product) => {
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 const addedToCart = document.querySelectorAll(".js-added-to-cart");
-const timeoutID = [];
+let timeoutID = [];
 
-document.querySelectorAll(".js-add-to-cart-button").forEach((addToCartBtn) => {
-  addToCartBtn.addEventListener("click", () => {
-    const productName = addToCartBtn.dataset.productName;
+document
+  .querySelectorAll(".js-add-to-cart-button")
+  .forEach((addToCartBtn, index) => {
+    addToCartBtn.addEventListener("click", () => {
+      const products = addToCartBtn.dataset;
+      const { productId, productName } = products;
+      //const productId = addToCartBtn.dataset.productId;
+      //const productName = addToCartBtn.dataset.productName;
+      if (checkCart(cart, productId) === -1) {
+        cart.push({
+          id: productId,
+          name: productName,
+          quantity: 1,
+        });
+      } else {
+        const index = checkCart(cart, productId);
+        cart[index].quantity++;
+      }
 
-    if (checkCart(productName) === -1) {
-      cart.push({
-        name: productName,
-        quantity: 1,
-      });
-    } else {
-      const index = checkCart(productName);
-      cart[index].quantity;
-    }
-
-    /* function checkCart(productName) {
-      return cart.some((cart) => cart.name === productName);
-    } */
-    /* cart.push({
-    
-      productName,
-      quantity: 1,
-      //priceCents: products[index].priceCents,
-      //image: products[index].image,
-    }); */
-    console.log(cart);
-    /* localStorage.setItem("checkoutItems", JSON.stringify(cart));
+      localStorage.setItem("checkoutItems", JSON.stringify(cart));
 
       clearTimeout(timeoutID[index]);
       addedToCart[index].style.opacity = 1;
       timeoutID[index] = setTimeout(() => {
         addedToCart[index].style.opacity = 0;
-      }, 3000); */
+      }, 3000);
+    });
   });
-});
 
-function checkCart(productName) {
-  const index = cart.findIndex((cartName) => {
-    cartName.name === productName;
-  });
-  
-  if (index !== -1) {
-    return index;
-  } else {
-    return -1;
-  }
+function checkCart(cart, productId) {
+  const index = cart.findIndex((cartProduct) => cartProduct.id === productId);
+  return index !== -1 ? index : -1;
 }
-
-console.log(checkCart("sad"));
