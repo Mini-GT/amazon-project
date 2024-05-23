@@ -1,8 +1,8 @@
 let productsHTML = "";
-const checkouts = [];
 
 products.forEach((product) => {
-  const { image, name, rating, priceCents } = product;
+  const { id, image, name, rating, priceCents } = product;
+  const priceDollar = (priceCents / 100).toFixed(2);
 
   productsHTML += `
     <div class="product-container">
@@ -24,7 +24,7 @@ products.forEach((product) => {
       </div>
 
       <div class="product-price">
-        $${(priceCents / 100).toFixed(2)}
+        $${priceDollar}
       </div>
 
       <div class="product-quantity-container">
@@ -49,7 +49,7 @@ products.forEach((product) => {
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary js-add-to-cart-button">
+      <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-name="${name}" data-product-price="${priceDollar}" data-product-Id="${id}">
         Add to Cart
       </button>
     </div>
@@ -58,23 +58,38 @@ products.forEach((product) => {
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 const addedToCart = document.querySelectorAll(".js-added-to-cart");
-let timeoutID;
+let timeoutID = [];
+
 document
   .querySelectorAll(".js-add-to-cart-button")
-  .forEach((addToCartBtn, i) => {
+  .forEach((addToCartBtn, index) => {
     addToCartBtn.addEventListener("click", () => {
-      checkouts.push({
-        name: products[i].name,
-        priceCents: products[i].priceCents,
-        image: products[i].image,
-      });
+      const products = addToCartBtn.dataset;
+      const { productId, productName } = products;
+      //const productId = addToCartBtn.dataset.productId;
+      //const productName = addToCartBtn.dataset.productName;
+      if (checkCart(cart, productId) === -1) {
+        cart.push({
+          id: productId,
+          name: productName,
+          quantity: 1,
+        });
+      } else {
+        const index = checkCart(cart, productId);
+        cart[index].quantity++;
+      }
 
-      clearTimeout(timeoutID);
-      addedToCart[i].style.opacity = 1;
-      timeoutID = setTimeout(() => {
-        addedToCart[i].style.opacity = 0;
+      localStorage.setItem("checkoutItems", JSON.stringify(cart));
+
+      clearTimeout(timeoutID[index]);
+      addedToCart[index].style.opacity = 1;
+      timeoutID[index] = setTimeout(() => {
+        addedToCart[index].style.opacity = 0;
       }, 3000);
-
-      localStorage.setItem("item", JSON.stringify(checkouts));
     });
   });
+
+function checkCart(cart, productId) {
+  const index = cart.findIndex((cartProduct) => cartProduct.id === productId);
+  return index !== -1 ? index : -1;
+}
