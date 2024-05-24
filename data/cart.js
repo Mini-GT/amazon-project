@@ -1,4 +1,4 @@
-const cart = JSON.parse(localStorage.getItem("checkoutItems")) || [];
+export const cart = JSON.parse(localStorage.getItem("checkoutItems")) || [];
 
 let checkoutsHTML = "";
 
