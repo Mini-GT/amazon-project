@@ -1,4 +1,4 @@
-import { cart } from "../data/cart.js";
+import { addToCart, updateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let productsHTML = "";
@@ -61,52 +61,26 @@ products.forEach((product) => {
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-let cartQuantity = 0;
 let timeoutID = [];
 
 document
   .querySelectorAll(".js-add-to-cart-button")
   .forEach((addToCartBtn, index) => {
     addToCartBtn.addEventListener("click", () => {
-      const addedToCart = document.querySelectorAll(".js-added-to-cart");
-      const selectedElem = document.querySelectorAll(".js-select-value");
-      const selectedValue = selectedElem[index].selectedIndex + 1;
-      const products = addToCartBtn.dataset;
-      const { productId, productName } = products;
-      //const productId = addToCartBtn.dataset.productId;
-      //const productName = addToCartBtn.dataset.productName;
-      if (checkCart(cart, productId) === -1) {
-        cart.push({
-          id: productId,
-          name: productName,
-          quantity: selectedValue,
-        });
-      } else {
-        const index = checkCart(cart, productId);
-        cart[index].quantity += selectedValue;
-      }
-
-      document.querySelector(".js-cart-quantity").innerHTML =
-        renderCartQuantity();
+      addToCart(addToCartBtn, index);
+      showAddedImg(index);
+      updateCartQuantity();
       //localStorage.setItem("checkoutItems", JSON.stringify(cart));
-
-      clearTimeout(timeoutID[index]);
-      addedToCart[index].style.opacity = 1;
-      timeoutID[index] = setTimeout(() => {
-        addedToCart[index].style.opacity = 0;
-      }, 3000);
     });
   });
 
-function checkCart(cart, productId) {
-  const index = cart.findIndex((cartProduct) => cartProduct.id === productId);
-  return index !== -1 ? index : -1;
-}
+function showAddedImg(index) {
+  const addedToCart = document.querySelectorAll(".js-added-to-cart");
+  //before we show the image we must clear any running timeout first
+  clearTimeout(timeoutID[index]);
 
-function renderCartQuantity() {
-  let total = 0;
-  cart.forEach((item) => {
-    total += item.quantity;
-  });
-  return total;
+  addedToCart[index].style.opacity = 1;
+  timeoutID[index] = setTimeout(() => {
+    addedToCart[index].style.opacity = 0;
+  }, 3000);
 }
