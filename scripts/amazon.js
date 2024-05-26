@@ -1,5 +1,9 @@
 import { addToCart, updateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
+import { cart } from "../data/cart.js";
+
+document.querySelector(".js-cart-quantity").innerHTML =
+  updateCartQuantity().cartItems;
 
 let productsHTML = "";
 
@@ -52,7 +56,7 @@ products.forEach((product) => {
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-name="${name}" data-product-price="${priceDollar}" data-product-Id="${id}">
+      <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-name="${name}"  data-product-Id="${id}" data-product-image="${image}" data-product-priceCents="${priceCents}">
         Add to Cart
       </button>
     </div>
@@ -70,7 +74,7 @@ document
       addToCart(addToCartBtn, index);
       showAddedImg(index);
       updateCartQuantity();
-      //localStorage.setItem("checkoutItems", JSON.stringify(cart));
+      localStorage.setItem("checkoutItems", JSON.stringify(cart));
     });
   });
 
