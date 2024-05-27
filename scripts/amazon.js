@@ -1,15 +1,14 @@
 import { addToCart, updateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { cart } from "../data/cart.js";
+import { formatCurrency } from "./utils/money.js";
 
-document.querySelector(".js-cart-quantity").innerHTML =
-  updateCartQuantity().cartItems;
+document.querySelector(".js-cart-quantity").innerHTML = updateCartQuantity();
 
 let productsHTML = "";
 
 products.forEach((product) => {
   const { id, image, name, rating, priceCents } = product;
-  const priceDollar = (priceCents / 100).toFixed(2);
 
   productsHTML += `
     <div class="product-container">
@@ -31,7 +30,7 @@ products.forEach((product) => {
       </div>
 
       <div class="product-price">
-        $${priceDollar}
+        $${formatCurrency(priceCents)}
       </div>
 
       <div class="product-quantity-container">
@@ -73,7 +72,8 @@ document
     addToCartBtn.addEventListener("click", () => {
       addToCart(addToCartBtn, index);
       showAddedImg(index);
-      updateCartQuantity();
+      document.querySelector(".js-cart-quantity").innerHTML =
+        updateCartQuantity();
       localStorage.setItem("checkoutItems", JSON.stringify(cart));
     });
   });
