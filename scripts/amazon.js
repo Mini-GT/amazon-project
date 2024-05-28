@@ -1,6 +1,6 @@
 import { addToCart, updateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
-import { cart } from "../data/cart.js";
+//import { cart } from "../data/cart.js";
 import { formatCurrency } from "./utils/money.js";
 
 document.querySelector(".js-cart-quantity").innerHTML = updateCartQuantity();
@@ -74,7 +74,7 @@ document
       showAddedImg(index);
       document.querySelector(".js-cart-quantity").innerHTML =
         updateCartQuantity();
-      localStorage.setItem("checkoutItems", JSON.stringify(cart));
+      //localStorage.setItem("checkoutItems", JSON.stringify(cart));
     });
   });
 

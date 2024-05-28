@@ -1,5 +1,4 @@
-import { cart } from "../data/cart.js";
-import { updateCartQuantity } from "../data/cart.js";
+import { cart, updateCartQuantity, removeFromCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
@@ -25,8 +24,9 @@ cart.forEach((cartItem, index) => {
   const { name, image, priceCents } = matchingProduct;
 
   checkoutsHTML += `
-    <div class="order-summary js-order-summary">
-      <div class="cart-item-container">
+      <div class="
+      cart-item-container
+      js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date">Delivery date: Tuesday, June 21</div>
     
         <div class="cart-item-details-grid">
@@ -47,7 +47,9 @@ cart.forEach((cartItem, index) => {
               <span class="update-quantity-link link-primary">
                 Update
               </span>
-              <span class="delete-quantity-link link-primary js-delete-quantity-link">
+              <span class="delete-quantity-link link-primary js-delete-quantity-link" data-product-id="${
+                matchingProduct.id
+              }">
                 Delete
               </span>
             </div>
@@ -94,7 +96,6 @@ cart.forEach((cartItem, index) => {
           </div>
         </div>
       </div>
-    </div>
     `;
 });
 
@@ -133,20 +134,22 @@ const productsHTML = `
   </div>
   `;
 
-function renderElements() {
-  document.querySelector(".js-checkout-grid").innerHTML =
-    checkoutsHTML + productsHTML;
-}
-renderElements();
-const deleteHTML = document.querySelectorAll(".delete-quantity-link");
+document.querySelector(".js-order-summary").innerHTML = checkoutsHTML;
 
-deleteHTML.forEach((deleteBtn, i) => {
-  deleteBtn.addEventListener("click", () => {
-    cart.splice(i, 1);
-    localStorage.setItem("checkoutItems", JSON.stringify(cart));
-    renderElements();
+document
+  .querySelectorAll(".js-delete-quantity-link")
+  .forEach((deleteBtn, i) => {
+    deleteBtn.addEventListener("click", () => {
+      const productId = deleteBtn.dataset.productId;
+      removeFromCart(productId);
+
+      const container = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
+      container.remove();
+      //localStorage.setItem("checkoutItems", JSON.stringify(cart));
+    });
   });
-});
 
-const deliveryOptionHTML = document.querySelector(".delivery-option");
-console.log(deliveryOptionHTML.radio);
+/* const deliveryOptionHTML = document.querySelector(".delivery-option");
+console.log(deliveryOptionHTML.radio); */
