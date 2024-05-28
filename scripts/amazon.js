@@ -1,8 +1,14 @@
+import { addToCart, updateCartQuantity } from "../data/cart.js";
+import { products } from "../data/products.js";
+//import { cart } from "../data/cart.js";
+import { formatCurrency } from "./utils/money.js";
+
+document.querySelector(".js-cart-quantity").innerHTML = updateCartQuantity();
+
 let productsHTML = "";
 
 products.forEach((product) => {
   const { id, image, name, rating, priceCents } = product;
-  const priceDollar = (priceCents / 100).toFixed(2);
 
   productsHTML += `
     <div class="product-container">
@@ -24,7 +30,7 @@ products.forEach((product) => {
       </div>
 
       <div class="product-price">
-        $${priceDollar}
+        $${formatCurrency(priceCents)}
       </div>
 
       <div class="product-quantity-container">
@@ -49,7 +55,7 @@ products.forEach((product) => {
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-name="${name}" data-product-price="${priceDollar}" data-product-Id="${id}">
+      <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-name="${name}"  data-product-Id="${id}" data-product-image="${image}" data-product-priceCents="${priceCents}">
         Add to Cart
       </button>
     </div>
@@ -57,39 +63,30 @@ products.forEach((product) => {
 });
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
-const addedToCart = document.querySelectorAll(".js-added-to-cart");
+
 let timeoutID = [];
 
 document
   .querySelectorAll(".js-add-to-cart-button")
-  .forEach((addToCartBtn, index) => {
-    addToCartBtn.addEventListener("click", () => {
-      const products = addToCartBtn.dataset;
-      const { productId, productName } = products;
-      //const productId = addToCartBtn.dataset.productId;
-      //const productName = addToCartBtn.dataset.productName;
-      if (checkCart(cart, productId) === -1) {
-        cart.push({
-          id: productId,
-          name: productName,
-          quantity: 1,
-        });
-      } else {
-        const index = checkCart(cart, productId);
-        cart[index].quantity++;
-      }
+  .forEach((cartItem, index) => {
+    cartItem.addEventListener("click", () => {
+      addToCart(cartItem, index);
 
-      localStorage.setItem("checkoutItems", JSON.stringify(cart));
+      showAddedImg(index);
 
-      clearTimeout(timeoutID[index]);
-      addedToCart[index].style.opacity = 1;
-      timeoutID[index] = setTimeout(() => {
-        addedToCart[index].style.opacity = 0;
-      }, 3000);
+      document.querySelector(".js-cart-quantity").innerHTML =
+        updateCartQuantity(cartItem);
+      //localStorage.setItem("checkoutItems", JSON.stringify(cart));
     });
   });
 
-function checkCart(cart, productId) {
-  const index = cart.findIndex((cartProduct) => cartProduct.id === productId);
-  return index !== -1 ? index : -1;
+function showAddedImg(index) {
+  const addedToCart = document.querySelectorAll(".js-added-to-cart");
+  //before we show the image we must clear any running timeout first
+  clearTimeout(timeoutID[index]);
+
+  addedToCart[index].style.opacity = 1;
+  timeoutID[index] = setTimeout(() => {
+    addedToCart[index].style.opacity = 0;
+  }, 3000);
 }
