@@ -99,8 +99,7 @@ cart.forEach((cartItem, index) => {
     `;
 });
 
-const productsHTML = `
-  <div class="payment-summary">
+const paymentHTML = `
     <div class="payment-summary-title">Order Summary</div>
   
     <div class="payment-summary-row">
@@ -131,10 +130,10 @@ const productsHTML = `
     <button class="place-order-button button-primary">
       Place your order
     </button>
-  </div>
   `;
 
 document.querySelector(".js-order-summary").innerHTML = checkoutsHTML;
+document.querySelector(".js-payment-summary").innerHTML = paymentHTML;
 
 document
   .querySelectorAll(".js-delete-quantity-link")

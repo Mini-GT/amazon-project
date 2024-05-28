@@ -68,12 +68,14 @@ let timeoutID = [];
 
 document
   .querySelectorAll(".js-add-to-cart-button")
-  .forEach((addToCartBtn, index) => {
-    addToCartBtn.addEventListener("click", () => {
-      addToCart(addToCartBtn, index);
+  .forEach((cartItem, index) => {
+    cartItem.addEventListener("click", () => {
+      addToCart(cartItem, index);
+
       showAddedImg(index);
+
       document.querySelector(".js-cart-quantity").innerHTML =
-        updateCartQuantity();
+        updateCartQuantity(cartItem);
       //localStorage.setItem("checkoutItems", JSON.stringify(cart));
     });
   });
