@@ -28,7 +28,7 @@ export function addToCart(addToCartBtn, index) {
     updateCartQuantity().cartItems;
 }
 
-function checkCart(cart, productId) {
+export function checkCart(cart, productId) {
   const index = cart.findIndex((cartProduct) => cartProduct.id === productId);
   return index !== -1 ? index : -1;
 }
