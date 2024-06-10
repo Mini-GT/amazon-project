@@ -8,7 +8,14 @@ import {
 } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
-import { formatCurrency, totalPriceCents } from "./utils/money.js";
+import {
+  formatCurrency,
+  totalPriceCents,
+  updateShipping,
+  calculateTotalBeforeTax,
+  calculateEstimatedTax,
+  calculateOrderTotal,
+} from "./utils/money.js";
 import { checkoutItems, quantityLabel } from "./utils/renderHTML.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
@@ -152,22 +159,30 @@ function renderOrderSummary() {
   
     <div class="payment-summary-row">
       <div>Shipping &amp; handling:</div>
-      <div class="payment-summary-money">$4.99</div>
+      <div class="payment-summary-money">$${formatCurrency(
+        updateShipping()
+      )}</div>
     </div>
   
     <div class="payment-summary-row subtotal-row">
       <div>Total before tax:</div>
-      <div class="payment-summary-money">$47.74</div>
+      <div class="payment-summary-money">$${formatCurrency(
+        calculateTotalBeforeTax()
+      )}</div>
     </div>
   
     <div class="payment-summary-row">
       <div>Estimated tax (10%):</div>
-      <div class="payment-summary-money">$4.77</div>
+      <div class="payment-summary-money">$${formatCurrency(
+        calculateEstimatedTax()
+      )}</div>
     </div>
   
     <div class="payment-summary-row total-row">
       <div>Order total:</div>
-      <div class="payment-summary-money">$52.51</div>
+      <div class="payment-summary-money">$${formatCurrency(
+        calculateOrderTotal()
+      )}</div>
     </div>
   
     <button class="place-order-button button-primary">
@@ -199,6 +214,7 @@ function renderOrderSummary() {
       document.querySelector(
         ".js-payment-summary-quantity"
       ).innerHTML = `Items (${updateCartQuantity()}):`;
+      renderOrderSummary();
 
       container.remove();
       /* if (cart.length === 0) {
@@ -253,6 +269,7 @@ function renderOrderSummary() {
 
       checkoutItems(updateCartQuantity);
       saveToStorage(cart);
+      renderOrderSummary();
     });
   });
 
@@ -261,6 +278,7 @@ function renderOrderSummary() {
       const { productId, deliveryOptionId } = element.dataset;
 
       updateDeliveryOption(productId, deliveryOptionId);
+
       renderOrderSummary();
 
       //used recursion to render all elements

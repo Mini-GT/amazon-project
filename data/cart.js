@@ -30,7 +30,7 @@ export function addToCart(addToCartBtn, index) {
 
   //const productId = addToCartBtn.dataset.productId;
   //const productName = addToCartBtn.dataset.productName;
-  if (checkCart(cart, productId) === -1) {
+  if (checkCartIndex(cart, productId) === -1) {
     cart.push({
       deliveryOptionId: "1",
       id: productId,
