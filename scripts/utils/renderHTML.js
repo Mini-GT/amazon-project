@@ -1,3 +1,6 @@
+//import { deliveryOptions } from "../../data/deliveryOptions.js";
+//import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+
 //for Checkout.html
 export function checkoutItems(updateCartQuantity) {
   document.querySelector(
@@ -17,6 +20,23 @@ export function quantityLabel(productId) {
     `.js-update-quantity-link-${productId}`
   ).style.display = "none";
 }
+
+/* export function updateDeliveryDate(deliveryOptionId) {
+  let deliveryOption;
+
+  deliveryOptions.forEach((option) => {
+    if (option.id === deliveryOptionId) {
+      deliveryOption = option;
+    }
+  });
+
+  const today = dayjs();
+  const deliveryDate = today
+    .add(deliveryOption.deliveryDays, "day")
+    .format("dddd, MMMM D");
+
+  return deliveryDate;
+} */
 
 //for Amazon.html
 

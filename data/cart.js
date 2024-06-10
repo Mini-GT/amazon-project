@@ -47,7 +47,7 @@ export function addToCart(addToCartBtn, index) {
     updateCartQuantity().cartItems;
 }
 
-export function checkCart(cart, productId) {
+export function checkCartIndex(cart, productId) {
   const index = cart.findIndex((cartProduct) => cartProduct.id === productId);
   return index === -1 ? -1 : index;
 }
@@ -73,7 +73,7 @@ export function removeFromCart(productId) {
 }
 
 export function updateDeliveryOption(productId, deliveryOptionId) {
-  const index = checkCart(cart, productId);
+  const index = checkCartIndex(cart, productId);
 
   cart[index].deliveryOptionId = deliveryOptionId;
 
