@@ -18,8 +18,8 @@ export let cart = JSON.parse(localStorage.getItem("cart")) || [
   },
 ];
 
-export function saveToStorage(cartItem) {
-  localStorage.setItem("cart", JSON.stringify(cartItem));
+export function saveToStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 export function addToCart(addToCartBtn, index) {
@@ -49,7 +49,7 @@ export function addToCart(addToCartBtn, index) {
 
 export function checkCart(cart, productId) {
   const index = cart.findIndex((cartProduct) => cartProduct.id === productId);
-  return index !== -1 ? index : -1;
+  return index === -1 ? -1 : index;
 }
 
 export function updateCartQuantity() {
@@ -69,5 +69,13 @@ export function removeFromCart(productId) {
   });
 
   cart = newCart;
-  saveToStorage(cart);
+  saveToStorage();
+}
+
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  const index = checkCart(cart, productId);
+
+  cart[index].deliveryOptionId = deliveryOptionId;
+
+  saveToStorage();
 }
