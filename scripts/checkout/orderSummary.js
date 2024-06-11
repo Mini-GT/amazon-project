@@ -6,49 +6,38 @@ import {
   saveToStorage,
   updateDeliveryOption,
 } from "../../data/cart.js";
-import { products } from "../../data/products.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { products, getProduct } from "../../data/products.js";
 import {
-  formatCurrency,
-  totalPriceCents,
-  updateShipping,
-  calculateTotalBeforeTax,
-  calculateEstimatedTax,
-  calculateOrderTotal,
-} from "../utils/money.js";
+  deliveryOptions,
+  getDeliveryOption,
+} from "../../data/deliveryOptions.js";
+import { formatCurrency, totalPriceCents } from "../utils/money.js";
 import { checkoutItems, quantityLabel } from "../utils/renderHTML.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 export function renderOrderSummary() {
   checkoutItems(updateCartQuantity);
 
   let checkoutsHTML = "";
-  let allProductPriceCents = 0;
+  //let allProductPriceCents = 0;
 
   cart.forEach((cartItem) => {
-    const cartId = cartItem.id;
+    const matchingProduct = getProduct(cartItem);
 
-    let matchingProduct;
-
-    products.forEach((product) => {
-      if (product.id === cartId) {
-        matchingProduct = product;
-        allProductPriceCents += product.priceCents * cartItem.quantity;
-      }
-    });
+    // products.forEach((product) => {
+    //   if (product.id === cartId) {
+    //     matchingProduct = product;
+    //     allProductPriceCents += product.priceCents * cartItem.quantity;
+    //   }
+    // });
     const { name, image, priceCents } = matchingProduct;
 
     const deliveryOptionId = cartItem.deliveryOptionId;
 
     //const deliveryDate = updateDeliveryDate(deliveryOptionId);
 
-    let deliveryOption;
-
-    deliveryOptions.forEach((option) => {
-      if (option.id === deliveryOptionId) {
-        deliveryOption = option;
-      }
-    });
+    const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const today = dayjs();
     const deliveryDate = today
@@ -147,51 +136,58 @@ export function renderOrderSummary() {
     return html;
   }
 
-  const paymentHTML = `
-    <div class="payment-summary-title">Order Summary</div>
-  
-    <div class="payment-summary-row">
-      <div class="js-payment-summary-quantity">Items (${updateCartQuantity()}):</div>
-      <div class="payment-summary-money js-payment-summary-money">$${formatCurrency(
-        allProductPriceCents
-      )}</div>
-    </div>
-  
-    <div class="payment-summary-row">
-      <div>Shipping &amp; handling:</div>
-      <div class="payment-summary-money">$${formatCurrency(
-        updateShipping()
-      )}</div>
-    </div>
-  
-    <div class="payment-summary-row subtotal-row">
-      <div>Total before tax:</div>
-      <div class="payment-summary-money">$${formatCurrency(
-        calculateTotalBeforeTax()
-      )}</div>
-    </div>
-  
-    <div class="payment-summary-row">
-      <div>Estimated tax (10%):</div>
-      <div class="payment-summary-money">$${formatCurrency(
-        calculateEstimatedTax()
-      )}</div>
-    </div>
-  
-    <div class="payment-summary-row total-row">
-      <div>Order total:</div>
-      <div class="payment-summary-money">$${formatCurrency(
-        calculateOrderTotal()
-      )}</div>
-    </div>
-  
-    <button class="place-order-button button-primary">
-      Place your order
-    </button>
-  `;
+  // function renderPaymentHTML() {
+  //   let paymentHTML;
+  //   cart.forEach((cartItem) => {
+  //     paymentHTML = `
+  //       <div class="payment-summary-title">Order Summary</div>
+
+  //       <div class="payment-summary-row">
+  //         <div class="js-payment-summary-quantity">Items (${updateCartQuantity()}):</div>
+  //         <div class="payment-summary-money js-payment-summary-money">$${formatCurrency(
+  //           getProduct(cartItem).allProductPriceCents
+  //         )}</div>
+  //       </div>
+
+  //       <div class="payment-summary-row">
+  //         <div>Shipping &amp; handling:</div>
+  //         <div class="payment-summary-money">$${formatCurrency(
+  //           updateShipping()
+  //         )}</div>
+  //       </div>
+
+  //       <div class="payment-summary-row subtotal-row">
+  //         <div>Total before tax:</div>
+  //         <div class="payment-summary-money">$${formatCurrency(
+  //           calculateTotalBeforeTax()
+  //         )}</div>
+  //       </div>
+
+  //       <div class="payment-summary-row">
+  //         <div>Estimated tax (10%):</div>
+  //         <div class="payment-summary-money">$${formatCurrency(
+  //           calculateEstimatedTax()
+  //         )}</div>
+  //       </div>
+
+  //       <div class="payment-summary-row total-row">
+  //         <div>Order total:</div>
+  //         <div class="payment-summary-money">$${formatCurrency(
+  //           calculateOrderTotal()
+  //         )}</div>
+  //       </div>
+
+  //       <button class="place-order-button button-primary">
+  //         Place your order
+  //       </button>
+  //     `;
+  //   });
+  //   return paymentHTML;
+  // }
 
   document.querySelector(".js-order-summary").innerHTML = checkoutsHTML;
-  document.querySelector(".js-payment-summary").innerHTML = paymentHTML;
+  document.querySelector(".js-payment-summary").innerHTML =
+    renderPaymentSummary();
 
   document.querySelectorAll(".js-delete-quantity-link").forEach((deleteBtn) => {
     deleteBtn.addEventListener("click", () => {

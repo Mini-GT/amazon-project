@@ -5,7 +5,7 @@ import { products } from "../../data/products.js";
 const taxInDecimal = 0.1;
 
 export function formatCurrency(priceCents) {
-  return (priceCents / 100).toFixed(2);
+  return (Math.round(priceCents) / 100).toFixed(2);
 }
 
 export function totalPriceCents(cart, products) {
@@ -21,7 +21,7 @@ export function totalPriceCents(cart, products) {
   return paymentSummary;
 }
 
-export function updateShipping() {
+export function calculateShipping() {
   let deliveryPrice = 0;
   cart.forEach((cartItem) => {
     const cartOptionId = cartItem.deliveryOptionId;
@@ -37,7 +37,7 @@ export function updateShipping() {
 
 export function calculateTotalBeforeTax() {
   const totalOrderItems = totalPriceCents(cart, products);
-  const totalShipping = updateShipping();
+  const totalShipping = calculateShipping();
   const totalBeforeTax = totalOrderItems + totalShipping;
 
   return totalBeforeTax;
