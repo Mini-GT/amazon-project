@@ -115,6 +115,15 @@
   margin-bottom: 5px;
 }
 
+.quantity-input,
+.save-quantity-link {
+  display: none;
+}
+
+.is-editing-quantity :is(.quantity-input, .save-quantity-link) {
+  display: initial;
+}
+
 .product-quantity .link-primary {
   margin-left: 3px;
 }
@@ -145,6 +154,10 @@
   margin-bottom: 12px;
   cursor: pointer;
   gap: 5px;
+}
+
+.quantity-input {
+  width: 40px;
 }
 
 .delivery-option-input {
