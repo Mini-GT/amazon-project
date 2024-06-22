@@ -1,33 +1,37 @@
 //import { deliveryOptions } from "./deliveryOptions";
 
-export let cart = JSON.parse(localStorage.getItem("cart")) || [
-  {
-    deliveryOptionId: "1",
-    id: "id1",
-    quantity: 1,
-  },
-  {
-    deliveryOptionId: "2",
-    id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    quantity: 1,
-  },
-  {
-    deliveryOptionId: "3",
-    id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-    quantity: 1,
-  },
-];
+export let cart;
+
+loadFromStorage();
+
+export function loadFromStorage() {
+  cart = JSON.parse(localStorage.getItem("cart")) || [
+    {
+      deliveryOptionId: "1",
+      id: "id1",
+      quantity: 1,
+    },
+    {
+      deliveryOptionId: "2",
+      id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      quantity: 1,
+    },
+    {
+      deliveryOptionId: "3",
+      id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+      quantity: 1,
+    },
+  ];
+}
 
 export function saveToStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-export function addToCart(addToCartBtn, index) {
+export function addToCart(productId, index) {
   const selectedElem = document.querySelectorAll(".js-select-value");
-  const selectedValue = selectedElem[index].selectedIndex + 1;
-  const products = addToCartBtn.dataset;
-  const { productId } = products;
-
+  console.log(selectedElem[index].value);
+  const selectedValue = Number(selectedElem[index].value);
   //const productId = addToCartBtn.dataset.productId;
   //const productName = addToCartBtn.dataset.productName;
   if (checkCartIndex(cart, productId) === -1) {
@@ -37,7 +41,7 @@ export function addToCart(addToCartBtn, index) {
       quantity: selectedValue,
     });
   } else {
-    const index = checkCart(cart, productId);
+    const index = checkCartIndex(cart, productId);
     cart[index].quantity += selectedValue;
   }
 

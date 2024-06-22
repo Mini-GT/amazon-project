@@ -70,7 +70,8 @@ document
   .querySelectorAll(".js-add-to-cart-button")
   .forEach((cartItem, index) => {
     cartItem.addEventListener("click", () => {
-      addToCart(cartItem, index);
+      const productId = cartItem.dataset.productId;
+      addToCart(productId, index);
 
       showAddedImg(index);
 
