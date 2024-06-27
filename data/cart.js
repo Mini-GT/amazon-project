@@ -30,7 +30,6 @@ export function saveToStorage() {
 
 export function addToCart(productId, index) {
   const selectedElem = document.querySelectorAll(".js-select-value");
-  console.log(selectedElem[index].value);
   const selectedValue = Number(selectedElem[index].value);
   //const productId = addToCartBtn.dataset.productId;
   //const productName = addToCartBtn.dataset.productName;
