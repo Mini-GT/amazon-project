@@ -71,7 +71,10 @@ document
   .forEach((cartItem, index) => {
     cartItem.addEventListener("click", () => {
       const productId = cartItem.dataset.productId;
-      addToCart(productId, index);
+      const optionSelectElem = Number(
+        document.querySelector(".js-select-value").value
+      );
+      addToCart(productId, optionSelectElem);
 
       showAddedImg(index);
 

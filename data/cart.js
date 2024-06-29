@@ -28,26 +28,18 @@ export function saveToStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-export function addToCart(productId, index) {
-  const selectedElem = document.querySelectorAll(".js-select-value");
-  const selectedValue = Number(selectedElem[index].value);
-  //const productId = addToCartBtn.dataset.productId;
-  //const productName = addToCartBtn.dataset.productName;
+export function addToCart(productId, optionValue) {
   if (checkCartIndex(cart, productId) === -1) {
     cart.push({
       deliveryOptionId: "1",
       id: productId,
-      quantity: selectedValue,
+      quantity: optionValue,
     });
   } else {
     const index = checkCartIndex(cart, productId);
-    cart[index].quantity += selectedValue;
+    cart[index].quantity += optionValue;
   }
-
   saveToStorage(cart);
-
-  document.querySelector(".js-cart-quantity").innerHTML =
-    updateCartQuantity().cartItems;
 }
 
 export function checkCartIndex(cart, productId) {
