@@ -13,14 +13,6 @@ describe("test suite: addToCart", () => {
         },
       ]);
     });
-    const mockElements = [{ value: "3" }, { value: "3" }];
-
-    spyOn(document, "querySelectorAll").and.callFake(() => {
-      return mockElements;
-    });
-
-    const mockCartQuantityElement = { innerHTML: "" };
-    spyOn(document, "querySelector").and.returnValue(mockCartQuantityElement);
 
     loadFromStorage();
 
@@ -30,7 +22,7 @@ describe("test suite: addToCart", () => {
     expect(localStorage.setItem).toHaveBeenCalledTimes(2);
     expect(localStorage.setItem).toHaveBeenCalledWith(
       "cart",
-      '[{"deliveryOptionId":"1","id":"e43638ce-6aa0-4b85-b27f-e1d07eb678c6","quantity":3}]'
+      '[{"deliveryOptionId":"1","id":"e43638ce-6aa0-4b85-b27f-e1d07eb678c6","quantity":1}]'
     );
     expect(cart[1].id).toEqual("id1");
     expect(cart[0].id).toEqual("e43638ce-6aa0-4b85-b27f-e1d07eb678c6");
@@ -42,15 +34,6 @@ describe("test suite: addToCart", () => {
     spyOn(localStorage, "getItem").and.callFake(() => {
       return JSON.stringify([]);
     });
-    const mockElements = [{ value: "3" }, { value: "3" }];
-
-    spyOn(document, "querySelectorAll").and.callFake(() => {
-      return mockElements;
-    });
-
-    const mockCartQuantityElement = { innerHTML: "" };
-    spyOn(document, "querySelector").and.returnValue(mockCartQuantityElement);
-
     loadFromStorage();
 
     addToCart("e43638ce-6aa0-4b85-b27f-e1d07eb678c6", 1);
@@ -58,7 +41,7 @@ describe("test suite: addToCart", () => {
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
     expect(localStorage.setItem).toHaveBeenCalledWith(
       "cart",
-      '[{"deliveryOptionId":"1","id":"e43638ce-6aa0-4b85-b27f-e1d07eb678c6","quantity":3}]'
+      '[{"deliveryOptionId":"1","id":"e43638ce-6aa0-4b85-b27f-e1d07eb678c6","quantity":1}]'
     );
     expect(cart[0].id).toEqual("e43638ce-6aa0-4b85-b27f-e1d07eb678c6");
   });

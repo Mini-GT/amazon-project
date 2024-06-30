@@ -1,6 +1,5 @@
 import {
   cart,
-  updateCartQuantity,
   removeFromCart,
   checkCartIndex,
   saveToStorage,
@@ -16,6 +15,7 @@ import { formatCurrency } from "../utils/money.js";
 import { quantityLabel } from "../utils/renderHTML.js";
 //import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { renderCheckoutHeaderMiddileSection } from "./headerMiddleSection.js";
 
 //testing dayjs
 // const Datetoday = dayjs();
@@ -34,11 +34,11 @@ import { renderPaymentSummary } from "./paymentSummary.js";
 // }
 
 // console.log(isWeekend(dayjs("2024-06-12")));
-
 export function renderOrderSummary() {
-  document.querySelector(
-    ".js-return-to-home-link"
-  ).innerHTML = `${updateCartQuantity()} items`;
+  // const cartQuantity = updateCartQuantity();
+  // document.querySelector(
+  //   ".js-return-to-home-link"
+  // ).innerHTML = `${cartQuantity} items`;
 
   let checkoutsHTML = "";
   //let allProductPriceCents = 0;
@@ -52,8 +52,7 @@ export function renderOrderSummary() {
     //     allProductPriceCents += product.priceCents * cartItem.quantity;
     //   }
     // });
-    const { name, image, priceCents } = matchingProduct;
-
+    const { name, image } = matchingProduct;
     const deliveryOptionId = cartItem.deliveryOptionId;
 
     //const deliveryDate = updateDeliveryDate(deliveryOptionId);
@@ -69,6 +68,7 @@ export function renderOrderSummary() {
     checkoutsHTML += `
       <div class="
       cart-item-container
+      js-cart-item-container
       js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date js-delivery-date-${
           matchingProduct.id
@@ -102,9 +102,11 @@ export function renderOrderSummary() {
               }">
               Save
               </span>
-              <span class="delete-quantity-link link-primary js-delete-quantity-link" data-product-id="${
+              <span class="delete-quantity-link js-delete-link-${
                 matchingProduct.id
-              }">
+              } link-primary js-delete-quantity-link" data-product-id="${
+      matchingProduct.id
+    }">
                 Delete
               </span>
             </div>
@@ -156,8 +158,6 @@ export function renderOrderSummary() {
   }
 
   document.querySelector(".js-order-summary").innerHTML = checkoutsHTML;
-  document.querySelector(".js-payment-summary").innerHTML =
-    renderPaymentSummary();
 
   document.querySelectorAll(".js-delete-quantity-link").forEach((deleteBtn) => {
     deleteBtn.addEventListener("click", () => {
@@ -170,6 +170,8 @@ export function renderOrderSummary() {
       );
       container.remove();
       renderOrderSummary();
+      renderPaymentSummary();
+      renderCheckoutHeaderMiddileSection();
     });
   });
 
@@ -212,6 +214,8 @@ export function renderOrderSummary() {
       }
       saveToStorage(cart);
       renderOrderSummary();
+      renderPaymentSummary();
+      renderCheckoutHeaderMiddileSection();
     });
   });
 
@@ -222,6 +226,8 @@ export function renderOrderSummary() {
       updateDeliveryOption(productId, deliveryOptionId);
 
       renderOrderSummary();
+      renderPaymentSummary();
+      renderCheckoutHeaderMiddileSection();
 
       //used recursion to render all elements
       /* const deliveryDate = updateDeliveryDate(deliveryOptionId);
