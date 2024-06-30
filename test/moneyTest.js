@@ -22,3 +22,9 @@ if (formatCurrency(2000.5) === "20.01") {
 } else {
   console.log("failed");
 }
+const words = "Ambot";
+console.log(
+  words.split("").forEach((word) => {
+    console.log(word);
+  })
+);
