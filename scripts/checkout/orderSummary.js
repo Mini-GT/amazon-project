@@ -76,15 +76,17 @@ export function renderOrderSummary() {
 
         <div class="cart-item-details-grid">
           <img
-            class="product-image"
+            class="product-image js-product-image"
             src="${image}"
           />
 
           <div class="cart-item-details">
-            <div class="product-name">
+            <div class="product-name js-product-name-${matchingProduct.id}">
               ${name}
             </div>
-            <div class="product-price">${matchingProduct.getPrice()}</div>
+            <div class="product-price js-product-price-${
+              matchingProduct.id
+            }">${matchingProduct.getPrice()}</div>
             <div class="product-quantity">
               <span> Quantity: <span class="quantity-label js-quantity-label-${
                 matchingProduct.id
@@ -137,14 +139,18 @@ export function renderOrderSummary() {
 
       html += `
       <div
-      class="delivery-option js-delivery-option"
+      class="delivery-option js-delivery-option js-delivery-option-${
+        matchingProduct.id
+      }-${deliveryOption.id}"
       data-product-id="${matchingProduct.id}"
       data-delivery-option-id="${deliveryOption.id}"
       >
         <input
           type="radio"
           ${isChecked ? "Checked" : ""}
-          class="delivery-option-input js-delivery-option-input"
+          class="delivery-option-input js-delivery-option-input js-delivery-option-input-${
+            matchingProduct.id
+          }-${deliveryOption.id}"
           name="delivery-option-${matchingProduct.id}"
         />
         <div>

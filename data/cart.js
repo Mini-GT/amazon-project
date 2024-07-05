@@ -69,6 +69,9 @@ export function removeFromCart(productId) {
 
 export function updateDeliveryOption(productId, deliveryOptionId) {
   const index = checkCartIndex(cart, productId);
+  if (index === -1) {
+    return;
+  }
 
   cart[index].deliveryOptionId = deliveryOptionId;
 
