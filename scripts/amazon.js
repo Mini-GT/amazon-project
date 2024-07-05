@@ -47,6 +47,16 @@ products.forEach((product) => {
           <option value="10">10</option>
         </select>
       </div>
+      
+      ${
+        //we can also do this in a ternary operator way, but below we use product.extraInfoHTML() even tho we can use the ternary operator in order to check that this is a clothing class. the reason we approached product.extraInfoHTML() is because we are doing the Polymorphism(another oop) where we are using the same extraInfoHTML() method in both classes
+        /* 
+        product instantof Clothing
+        ? `<a href="${this.sizeChartLink}" target="_blank">Size    chart</a>`
+        : ''
+        */
+        product.extraInfoHTML()
+      }
 
       <div class="product-spacer"></div>
 

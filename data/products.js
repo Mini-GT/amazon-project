@@ -34,19 +34,48 @@ class Product {
   getPrice() {
     return `$${formatCurrency(this.priceCents)}`;
   }
+
+  extraInfoHTML() {
+    return "";
+  }
 }
 
-// const product1 = new Product({
-//   id: "id1",
-//   image: "images/products/umbrella.jpg",
-//   name: "Umbrella",
-//   rating: {
-//     stars: 2.5,
-//     count: 23,
-//   },
-//   priceCents: 590,
-// });
-// console.log(product1);
+//inheritance, we use (extends + *class name*) to inherit the parent class properties and methods
+class Clothing extends Product {
+  sizeChartLink;
+
+  constructor(productDetails) {
+    //super() calls the constructor of the Parent Class
+    //note: if we dont put a constructor, it will automatically inherit the parents constructor in short it will run the super()
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+  //we used extraInfoHTML() twice which is in the parents also. when the parent is called it will run the extraInfoHTML() method first then if it is is in the Clothing class it will override the parent's extraInfoHTML() method (this is called method overriding)
+  extraInfoHTML() {
+    //we can also use the super method inside, this means we can call the extraInfoHTML() in the parent class
+    //super.extraInfoHTML()
+    return `<a href="${this.sizeChartLink}" target="_blank">
+      Size chart
+    </a>`;
+  }
+}
+
+const tshirt = new Clothing({
+  id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
+  image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
+  name: "Adults Plain Cotton T-Shirt - 2 Pack",
+  rating: {
+    stars: 4.5,
+    count: 56,
+  },
+  priceCents: 799,
+  keywords: ["tshirts", "apparel", "mens"],
+  type: "clothing",
+  sizeChartLink: "images/clothing-size-chart.png",
+});
+
+console.log(tshirt);
+console.log(tshirt.getPrice());
 
 export const products = [
   {
@@ -91,6 +120,7 @@ export const products = [
     },
     priceCents: 799,
     keywords: ["tshirts", "apparel", "mens"],
+    //type below is called "discriminator property" it tells us which class we should convert this to
     type: "clothing",
     sizeChartLink: "images/clothing-size-chart.png",
   },
@@ -530,5 +560,8 @@ export const products = [
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
 ].map((productDetails) => {
+  if (productDetails.type === "clothing") {
+    return new Clothing(productDetails);
+  }
   return new Product(productDetails);
 });
