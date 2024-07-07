@@ -59,23 +59,33 @@ class Clothing extends Product {
     </a>`;
   }
 }
+// testing built-in date
+// const date = new Date();
+// console.log(date);
+// console.log(date.toLocaleDateString());
 
-const tshirt = new Clothing({
-  id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
-  image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
-  name: "Adults Plain Cotton T-Shirt - 2 Pack",
-  rating: {
-    stars: 4.5,
-    count: 56,
+// console.log(this);
+
+// const object2 = {
+//   a: 2,
+//   b: this.a,
+// };
+
+// function logThis() {
+//   console.log(this);
+// }
+
+// logThis();
+// //we can use .call() to assign a value to `this`
+// logThis.call("hello");
+
+//arrow functions do not change the value of `this`
+const object3 = {
+  method: () => {
+    console.log(this);
   },
-  priceCents: 799,
-  keywords: ["tshirts", "apparel", "mens"],
-  type: "clothing",
-  sizeChartLink: "images/clothing-size-chart.png",
-});
-
-console.log(tshirt);
-console.log(tshirt.getPrice());
+};
+object3.method();
 
 export const products = [
   {
