@@ -80,12 +80,12 @@ class Clothing extends Product {
 // logThis.call("hello");
 
 //arrow functions do not change the value of `this`
-const object3 = {
-  method: () => {
-    console.log(this);
-  },
-};
-object3.method();
+// const object3 = {
+//   method: () => {
+//     console.log(this);
+//   },
+// };
+// object3.method();
 
 export const products = [
   {
