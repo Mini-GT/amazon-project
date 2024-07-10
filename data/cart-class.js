@@ -1,6 +1,6 @@
 class Cart {
   cartItems;
-  //putting # infront of a property will make it private, that means it can only be accessed inside the class Cart{}
+  //putting # infront of a property will make it private, that means it can only be accessed inside the class Cart{} and not in other class even if it is a child class
   #localStorageKey;
 
   constructor(localStorageKey) {

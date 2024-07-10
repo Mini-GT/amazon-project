@@ -40,6 +40,8 @@ class Product {
   }
 }
 
+
+
 //inheritance, we use (extends + *class name*) to inherit the parent class properties and methods
 class Clothing extends Product {
   sizeChartLink;
