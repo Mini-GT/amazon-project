@@ -12,7 +12,7 @@ export function getProduct(cartItem) {
   return matchingProduct;
 }
 
-class Product {
+export class Product {
   id;
   image;
   name;
@@ -40,7 +40,7 @@ class Product {
   }
 }
 
-class Appliance extends Product {
+export class Appliance extends Product {
   instructionsLink;
   warrantyLink;
 
@@ -63,7 +63,7 @@ class Appliance extends Product {
 }
 
 //inheritance, we use (extends + *class name*) to inherit the parent class properties and methods
-class Clothing extends Product {
+export class Clothing extends Product {
   sizeChartLink;
 
   constructor(productDetails) {
