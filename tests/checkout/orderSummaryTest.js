@@ -1,10 +1,17 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
 import { loadFromStorage, cart } from "../../data/cart.js";
 import { formatCurrency } from "../../scripts/utils/money.js";
+import { loadProducts } from "../../data/products.js";
 
 describe("test suite: renderOrderSummary", () => {
-  const productId1 = "id1";
-  const productId2 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
+  const productId1 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
+  const productId2 = "15b6fc6f-327a-4ec4-896f-486349e85a3d";
+
+  beforeAll((done) => {
+    loadProducts(() => {
+      done();
+    });
+  })
 
   //beforeEach() lets us run all of the code inside before each test and same as afterEach()
   beforeEach(() => {
@@ -21,23 +28,23 @@ describe("test suite: renderOrderSummary", () => {
       return JSON.stringify([
         {
           deliveryOptionId: "1",
-          id: "id1",
+          id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
           quantity: 1,
         },
         {
           deliveryOptionId: "2",
-          id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+          id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
           quantity: 2,
         },
         {
           deliveryOptionId: "3",
-          id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+          id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
           quantity: 3,
         },
       ]);
     });
-    loadFromStorage();
 
+    loadFromStorage();
     renderOrderSummary();
   });
 
@@ -61,19 +68,19 @@ describe("test suite: renderOrderSummary", () => {
 
     expect(
       document.querySelector(`.js-product-name-${productId1}`).innerHTML
-    ).toContain("Umbrella");
-
-    expect(
-      document.querySelector(`.js-product-name-${productId2}`).innerHTML
     ).toContain("Black and Gray Athletic Cotton Socks - 6 Pairs");
 
     expect(
+      document.querySelector(`.js-product-name-${productId2}`).innerHTML
+    ).toContain("Intermediate Size Basketball");
+
+    expect(
       document.querySelector(`.js-product-price-${productId1}`).innerHTML
-    ).toBe(`$${formatCurrency(590)}`);
+    ).toBe(`$${formatCurrency(1090)}`);
 
     expect(
       document.querySelector(`.js-product-price-${productId2}`).innerHTML
-    ).toBe(`$${formatCurrency(1090)}`);
+    ).toBe(`$${formatCurrency(2095)}`);
   });
 
   it("remove a product", () => {
@@ -105,10 +112,9 @@ describe("test suite: renderOrderSummary", () => {
     expect(
       document.querySelector(`.js-payment-summary-shipping`).innerText
     ).toEqual("$24.97");
-    console.log(cart);
     expect(
       document.querySelector(`.js-payment-summary-total`).innerText
-    ).toEqual("$127.07");
+    ).toEqual("$111.91");
   });
   //testing
   //   it("container should be null", () => {

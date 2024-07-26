@@ -39,6 +39,7 @@ export function renderOrderSummary() {
   let checkoutsHTML = "";
 
   cart.forEach((cartItem) => {
+    
     const matchingProduct = getProduct(cartItem);
     //const { name, image } = matchingProduct;
     const deliveryOptionId = cartItem.deliveryOptionId;
