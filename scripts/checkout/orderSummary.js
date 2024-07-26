@@ -35,36 +35,16 @@ import { renderCheckoutHeaderMiddileSection } from "./headerMiddleSection.js";
 
 // console.log(isWeekend(dayjs("2024-06-12")));
 export function renderOrderSummary() {
-  // const cartQuantity = updateCartQuantity();
-  // document.querySelector(
-  //   ".js-return-to-home-link"
-  // ).innerHTML = `${cartQuantity} items`;
 
   let checkoutsHTML = "";
-  //let allProductPriceCents = 0;
 
   cart.forEach((cartItem) => {
     const matchingProduct = getProduct(cartItem);
-
-    // products.forEach((product) => {
-    //   if (product.id === cartId) {
-    //     matchingProduct = product;
-    //     allProductPriceCents += product.priceCents * cartItem.quantity;
-    //   }
-    // });
-    const { name, image } = matchingProduct;
+    //const { name, image } = matchingProduct;
     const deliveryOptionId = cartItem.deliveryOptionId;
-
-    //const deliveryDate = updateDeliveryDate(deliveryOptionId);
-
     const deliveryOption = getDeliveryOption(deliveryOptionId);
-
-    //const today = dayjs();
     const deliveryDate = calculateDeliveryOptions(deliveryOption);
-    // today
-    //   .add(deliveryOption.deliveryDays, "day")
-    //   .format("dddd, MMMM D");
-
+    
     checkoutsHTML += `
       <div class="
       cart-item-container
@@ -77,12 +57,12 @@ export function renderOrderSummary() {
         <div class="cart-item-details-grid">
           <img
             class="product-image js-product-image"
-            src="${image}"
+            src="${matchingProduct.image}"
           />
 
           <div class="cart-item-details">
             <div class="product-name js-product-name-${matchingProduct.id}">
-              ${name}
+              ${matchingProduct.name}
             </div>
             <div class="product-price js-product-price-${
               matchingProduct.id

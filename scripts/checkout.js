@@ -1,10 +1,15 @@
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { renderCheckoutHeaderMiddileSection } from "./checkout/headerMiddleSection.js";
-import '../data/backend-practice.js'
+import { loadProducts } from "../data/products.js";
 import "../data/cart-class.js";
 import "../data/car.js";
+//import '../data/backend-practice.js'
+import '../data/products.js'
 
-renderOrderSummary();
-renderPaymentSummary();
-renderCheckoutHeaderMiddileSection();
+loadProducts(() => {
+  renderOrderSummary();
+  renderPaymentSummary();
+  renderCheckoutHeaderMiddileSection();
+});
+

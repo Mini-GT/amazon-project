@@ -2,7 +2,6 @@ import { formatCurrency } from "../scripts/utils/money.js";
 
 export function getProduct(cartItem) {
   let matchingProduct;
-
   products.forEach((product) => {
     if (product.id === cartItem.id) {
       matchingProduct = product;
@@ -109,7 +108,32 @@ export class Clothing extends Product {
 // };
 // object3.method();
 
-export const products = [
+export let products = [];
+
+export function loadProducts(renderProductsHTML) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', () => {
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      if (productDetails.type === "clothing") {
+        return new Clothing(productDetails);
+      }
+      if (productDetails.type === "appliance") {
+        return new Appliance(productDetails);
+      }
+      return new Product(productDetails);
+    });
+
+    renderProductsHTML();
+  });
+  
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.send();
+}
+
+
+
+/* export const products = [
   {
     id: "id1",
     image: "images/products/umbrella.jpg",
@@ -611,4 +635,4 @@ export const products = [
     return new Appliance(productDetails);
   }
   return new Product(productDetails);
-});
+}); */
