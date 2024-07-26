@@ -124,6 +124,8 @@ export function loadProducts(renderProductsHTML) {
       return new Product(productDetails);
     });
 
+    console.log('load products')
+
     renderProductsHTML();
   });
   
