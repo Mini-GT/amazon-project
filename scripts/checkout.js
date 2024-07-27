@@ -1,7 +1,7 @@
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { renderCheckoutHeaderMiddileSection } from "./checkout/headerMiddleSection.js";
-import { loadProducts } from "../data/products.js";
+import { loadProducts, loadProductsFetch } from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 import "../data/cart-class.js";
 import "../data/car.js";
@@ -60,20 +60,22 @@ new Promise((resolve) => {
 
 //Promise.all() can run multiple promises at the same time
 Promise.all([
-  new Promise((resolve) => {
-    loadProducts(() => {
+  /* new Promise((resolve) => {
+    loadProductsFetch(() => {
       //resolve will pass this value1 into .then()
-      resolve('a');
+      resolve();
     });
-  }),
+  }) 
+  */
+  // loadProductsFetch returns a promise so we can just run the function instead above step
+  loadProductsFetch(),
   new Promise((resolve) => {
     loadCart(() => {
-      resolve('v');
+      resolve();
     });
   }),
 
-]).then((values) => {
-  console.log(values[1]);
+]).then(() => {
   renderOrderSummary();
   renderPaymentSummary();
   renderCheckoutHeaderMiddileSection();

@@ -110,6 +110,36 @@ export class Clothing extends Product {
 
 export let products = [];
 
+export function loadProductsFetch() {
+  //fetch() uses the same method as XMLHttpRequest() but in promise
+  //fetch() has a default method of 'GET' unlike XMLHttpRequest() it doesnt have
+  //fetch() will then store the response inside the .then()
+  const promise = fetch('https://supersimplebackend.dev/products').then((response) => {
+    //use response.json() to get the data
+    //response.json() is also a promise that means we wait for it then go to the next step with .then()
+    return response.json()
+
+  }).then((productsData) => {
+    products = productsData.map((productDetails) => {
+      if (productDetails.type === "clothing") {
+        return new Clothing(productDetails);
+      }
+      if (productDetails.type === "appliance") {
+        return new Appliance(productDetails);
+      }
+      return new Product(productDetails);
+    });
+    
+    console.log('load products fetch')
+  })
+  return promise;
+};
+
+//we can add .then() or more step if we returns a promise
+/* loadProductsFetch().then(() => {
+  console.log('next step')
+}) */
+
 export function loadProducts(renderProductsHTML) {
   const xhr = new XMLHttpRequest();
 
@@ -131,7 +161,7 @@ export function loadProducts(renderProductsHTML) {
   
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
-}
+};
 
 
 
