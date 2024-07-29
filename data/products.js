@@ -131,6 +131,10 @@ export function loadProductsFetch() {
     });
     
     console.log('load products fetch')
+  //.catch() also contains error if we needed more information
+  // also dont have to use .catch() here if we use try/catch outside because try/catch wont be able to catch the error because it already has been handled here
+  }).catch((error) => {
+    console.log('Unexpected error. Please try again later.');
   })
   return promise;
 };
@@ -158,10 +162,15 @@ export function loadProducts(renderProductsHTML) {
 
     renderProductsHTML();
   });
+
+  xhr.addEventListener('error', (error) => {
+    console.log('Unexpected error. Please try again later.');
+  })
   
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
 };
+
 
 
 

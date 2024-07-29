@@ -18,16 +18,31 @@ import '../data/products.js'
 // }
 
 async function loadPage() {
-  // console.log('load page async')
+  //use try/catch to handle errors in async/await
+  try {
+    //we can manually create an error by using throw for the .catch() to catch it
+    //can use any value like string, numbers, characters etc.
+    
+    //throw 'error 1';
 
-  //await lets us wait for the function to finish (no more .then())
-  await loadProductsFetch();
+    await loadProductsFetch();
 
-  await new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
-    });
-  }); 
+    await new Promise((resolve, reject) => {
+      //throw 'error 2'
+      loadCart(() => {
+        //another way to manual error is by using reject
+        //reject('error3');
+        resolve();
+      });
+    }); 
+  // if anything inside the try{} gets an error we will gonna catch the error
+  //note: 1. we can use try/catch in normal code it doesnt have to be in async/await
+  //2. if there is an error it wont run the next line of code instead it will jump directly into .catch() if there's an error
+  } catch (error) {
+    console.log('Unexpected error. Please try again later.', error);
+  }
+  //await lets us wait for the function to finish (no more use of .then())
+  
 
   renderOrderSummary();
   renderPaymentSummary();
