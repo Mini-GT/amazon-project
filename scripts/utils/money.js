@@ -13,7 +13,7 @@ export function totalPriceCents(cart, products) {
 
   cart.forEach((cartItem) => {
     products.forEach((productItem) => {
-      if (cartItem.id === productItem.id) {
+      if (cartItem.productId === productItem.id) {
         paymentSummary += productItem.priceCents * cartItem.quantity;
       }
     });

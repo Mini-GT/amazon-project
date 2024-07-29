@@ -63,7 +63,7 @@ function Cart(localStorageKey) {
     removeFromCart(productId) {
       const newCart = [];
       this.cartItems.forEach((cartItem) => {
-        if (cartItem.id !== productId) {
+        if (cartItem.productId !== productId) {
           newCart.push(cartItem);
         }
       });

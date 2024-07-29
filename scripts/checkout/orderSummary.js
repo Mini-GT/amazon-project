@@ -39,9 +39,8 @@ export function renderOrderSummary() {
   let checkoutsHTML = "";
 
   cart.forEach((cartItem) => {
-    
-    const matchingProduct = getProduct(cartItem);
-    //const { name, image } = matchingProduct;
+    const productId = cartItem.productId;
+    const matchingProduct = getProduct(productId);
     const deliveryOptionId = cartItem.deliveryOptionId;
     const deliveryOption = getDeliveryOption(deliveryOptionId);
     const deliveryDate = calculateDeliveryOptions(deliveryOption);
@@ -147,6 +146,7 @@ export function renderOrderSummary() {
   document.querySelector(".js-order-summary").innerHTML = checkoutsHTML;
 
   document.querySelectorAll(".js-delete-quantity-link").forEach((deleteBtn) => {
+    
     deleteBtn.addEventListener("click", () => {
       const productId = deleteBtn.dataset.productId;
 

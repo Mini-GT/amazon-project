@@ -1,13 +1,13 @@
 import { formatCurrency } from "../scripts/utils/money.js";
 
-export function getProduct(cartItem) {
+export function getProduct(cartId) {
   let matchingProduct;
+
   products.forEach((product) => {
-    if (product.id === cartItem.id) {
+    if (product.id === cartId) {
       matchingProduct = product;
     }
   });
-
   return matchingProduct;
 }
 
@@ -132,7 +132,7 @@ export function loadProductsFetch() {
     
     console.log('load products fetch')
   //.catch() also contains error if we needed more information
-  // also dont have to use .catch() here if we use try/catch outside because try/catch wont be able to catch the error because it already has been handled here
+  // also dont have to use .catch() here if we use try/catch because try/catch wont be able to catch the error because it already has been handled here
   }).catch((error) => {
     console.log('Unexpected error. Please try again later.');
   })
