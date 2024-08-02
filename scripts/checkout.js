@@ -6,7 +6,7 @@ import { loadCart } from "../data/cart.js";
 import "../data/cart-class.js";
 import "../data/car.js";
 //import '../data/backend-practice.js'
-import '../data/products.js'
+import '../data/products.js';
 
 // async makes a function return a promise
 // this is the same as:
