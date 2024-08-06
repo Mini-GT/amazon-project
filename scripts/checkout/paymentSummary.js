@@ -7,7 +7,7 @@ import {
   calculateEstimatedTax,
   calculateOrderTotal,
 } from "../utils/money.js";
-import { addOrder, removeOrder } from "../../data/orders.js";
+import { addOrder } from "../../data/orders.js";
 
 export function renderPaymentSummary() {
   let productPriceCents = 0;
@@ -78,7 +78,7 @@ export function renderPaymentSummary() {
   
         const order = await response.json();
         addOrder(order);
-        
+        localStorage.removeItem('cart');
 
       } catch (error) {
         console.log('Unexpected error. Try again later.')

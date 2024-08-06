@@ -71,3 +71,10 @@ export function loadCart(renderProductsHTML) {
   xhr.open('GET', 'https://supersimplebackend.dev/cart');
   xhr.send();
 };
+
+export function clearCart() {
+  if(cart.length > 0) {
+    cart.splice(0, cart.length);
+    console.log(cart)
+  }
+}
