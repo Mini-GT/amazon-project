@@ -1,9 +1,7 @@
-import { orders } from "../data/orders.js";
-import { getProduct, loadProductsFetch } from "../data/products.js";
+import { loadProductsFetch } from "../data/products.js";
 import { renderOrderHeaderPlacedSummary } from "./order/orderHeaderPlacedSummay.js";
-import { renderOrderDetailPlacedSummary } from "./order/orderDetailPlacedSummary.js";
 import '../data/products.js';
-console.log(orders)
+import '../scripts/order/orderCartQuantity.js'
 
 async function loadPage() {
   try {

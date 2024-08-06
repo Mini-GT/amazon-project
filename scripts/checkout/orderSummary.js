@@ -16,7 +16,7 @@ import { quantityLabel } from "../utils/renderHTML.js";
 //import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { renderCheckoutHeaderMiddileSection } from "./headerMiddleSection.js";
-
+import { renderMessage } from "./cartEmpty.js";
 //testing dayjs
 // const Datetoday = dayjs();
 // const FiveDaysAfter = Datetoday.add(5, "day").format("MMMM D");
@@ -35,10 +35,13 @@ import { renderCheckoutHeaderMiddileSection } from "./headerMiddleSection.js";
 
 // console.log(isWeekend(dayjs("2024-06-12")));
 export function renderOrderSummary() {
-
   let checkoutsHTML = "";
-
+  if(cart.length === 0) {
+    renderMessage();
+    return;
+  }
   cart.forEach((cartItem) => {
+    
     const productId = cartItem.productId;
     const matchingProduct = getProduct(productId);
     const deliveryOptionId = cartItem.deliveryOptionId;

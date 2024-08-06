@@ -1,7 +1,7 @@
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { renderCheckoutHeaderMiddileSection } from "./checkout/headerMiddleSection.js";
-import { loadProducts, loadProductsFetch } from "../data/products.js";
+import { loadProductsFetch } from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 import "../data/cart-class.js";
 import "../data/car.js";
@@ -41,9 +41,8 @@ async function loadPage() {
   } catch (error) {
     console.log('Unexpected error. Please try again later.', error);
   }
-  //await lets us wait for the function to finish (no more use of .then())
   
-
+  //await lets us wait for the function to finish (no more use of .then())
   renderOrderSummary();
   renderPaymentSummary();
   renderCheckoutHeaderMiddileSection();

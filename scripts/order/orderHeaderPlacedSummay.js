@@ -1,8 +1,7 @@
 import { orders } from "../../data/orders.js";
 import { formatCurrency } from "../utils/money.js";
+import { renderOrderDetailPlacedSummary } from "./orderDetailPlacedSummary.js";
 import moment from 'https://cdn.skypack.dev/moment';
-
-renderOrderHeaderPlacedSummary();
 
 export function renderOrderHeaderPlacedSummary() {
   let ordersHeaderHTML = "";
@@ -11,7 +10,7 @@ export function renderOrderHeaderPlacedSummary() {
     const orderPlaced = moment(orderTime).format('MMMM D');
 
     ordersHeaderHTML += `
-      <div class="order-container">
+      <div class="order-container" data-product-id="${order.id}">
         <div class="order-header">
           <div class="order-header-left-section">
             <div class="order-date">
@@ -20,7 +19,7 @@ export function renderOrderHeaderPlacedSummary() {
             </div>
             <div class="order-total">
               <div class="order-header-label">Total:</div>
-              <div>${formatCurrency(order.totalCostCents)}</div>
+              <div>$${formatCurrency(order.totalCostCents)}</div>
             </div>
           </div>
 
@@ -29,6 +28,8 @@ export function renderOrderHeaderPlacedSummary() {
             <div>${order.id}</div>
           </div>
         </div>
+
+        ${renderOrderDetailPlacedSummary(order.products)}
       </div>
     `;
   });

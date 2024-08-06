@@ -132,7 +132,7 @@ export function loadProductsFetch() {
     console.log('load products fetch')
   //.catch() also contains error if we needed more information
   // also dont have to use .catch() here if we use try/catch because try/catch wont be able to catch the error because it already has been handled here
-  }).catch((error) => {
+  }).catch(() => {
     console.log('Unexpected error. Please try again later.');
   })
   return promise;
