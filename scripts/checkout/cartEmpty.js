@@ -1,9 +1,9 @@
-export function renderMessage() {
+export function renderMessage(className, name) {
   const message = `
-  <p>Your cart is empty</p>
+  <p>Your ${name} is empty</p>
   <a href="amazon.html">
     <button class="checkout-message">View Products</button>
   </a>
   `;
-  document.querySelector('.js-order-summary').innerHTML = message;
+  document.querySelector(className).innerHTML = message;
 }

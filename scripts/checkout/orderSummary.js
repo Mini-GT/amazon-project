@@ -37,7 +37,7 @@ import { renderMessage } from "./cartEmpty.js";
 export function renderOrderSummary() {
   let checkoutsHTML = "";
   if(cart.length === 0) {
-    renderMessage();
+    renderMessage('.js-order-summary', 'cart');
     return;
   }
   cart.forEach((cartItem) => {
@@ -112,6 +112,7 @@ export function renderOrderSummary() {
     let html = "";
 
     deliveryOptions.forEach((deliveryOption) => {
+      console.log(deliveryOption)
       const deliveryDate = calculateDeliveryOptions(deliveryOption);
       const deliveryPrice =
         deliveryOption.priceCents === 0

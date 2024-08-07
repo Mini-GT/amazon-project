@@ -1,3 +1,5 @@
+import { updateCartQuantity } from "../../data/cart.js";
+
 export function quantityLabel(productId) {
   document
     .querySelector(`.js-cart-item-container-${productId}`)
@@ -11,6 +13,11 @@ export function quantityLabel(productId) {
   ).style.display = "none";
 }
 
+export function renderCartQuantity() {
+  document.querySelector(".js-cart-quantity").innerHTML =
+    updateCartQuantity();
+}
+ 
 /* export function updateDeliveryDate(deliveryOptionId) {
   let deliveryOption;
 

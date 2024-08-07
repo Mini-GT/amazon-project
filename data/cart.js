@@ -10,7 +10,7 @@ export function saveToStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-export function addToCart(productId, optionValue) {
+export function addToCart(productId, optionValue = 1) {
   if (checkCartIndex(cart, productId) === -1) {
     cart.push({
       deliveryOptionId: "1",
@@ -71,10 +71,3 @@ export function loadCart(renderProductsHTML) {
   xhr.open('GET', 'https://supersimplebackend.dev/cart');
   xhr.send();
 };
-
-export function clearCart() {
-  if(cart.length > 0) {
-    cart.splice(0, cart.length);
-    console.log(cart)
-  }
-}

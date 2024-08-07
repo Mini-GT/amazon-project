@@ -1,45 +1,60 @@
 import { getProduct } from '../../data/products.js';
+import { calculateDeliveryOptions } from '../../data/deliveryOptions.js';
+import { deliveryOptions } from '../../data/deliveryOptions.js';
+import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import moment from 'https://cdn.skypack.dev/moment';
 
-export function renderOrderDetailPlacedSummary(orderedProduct) {
+export function renderOrderDetailPlacedSummary(orderProducts, orderId) {
   let itemsplaced = "";
 
-  orderedProduct.forEach((product) => {
-    const estimatedDate = product.estimatedDeliveryTime;
-    const deliveryDate = moment(estimatedDate).format('MMMM D');
-    const orderProductId = product.productId;
-    const matchingProduct = getProduct(orderProductId);
-    const { image, name } = matchingProduct;
-    
+    orderProducts.forEach((product) => {
+      const estimatedDate = product.estimatedDeliveryTime;
+      const deliveryDate = Number(moment(estimatedDate).format('D'));
+      const dateToday = Number(dayjs().format("D"));
+      
+      const deliveryDays = deliveryDate - dateToday;
+      let semiFinalDeliveryDate = 0;
+      deliveryOptions.forEach((deliveryOption) => {
+        if(deliveryOption.deliveryDays === deliveryDays) {
+          semiFinalDeliveryDate = deliveryOption;
+        }
+      });
+      const finalDeliveryDate = calculateDeliveryOptions(semiFinalDeliveryDate);
 
-    itemsplaced += `
-      <div class="order-details-grid js-order-details-grid">
-        <div class="product-image-container">
-          <img src="${image}" />
-        </div>
-
-        <div class="product-details">
-          <div class="product-name">
-            ${name}
+      const orderProductId = product.productId;
+      const matchingProduct = getProduct(orderProductId);
+      
+      const { image, name } = matchingProduct;
+      
+  
+      itemsplaced += `
+        <div class="order-details-grid js-order-details-grid">
+          <div class="product-image-container">
+            <img src="${image}" />
           </div>
-          <div class="product-delivery-date">Arriving on: ${deliveryDate}</div>
-          <div class="product-quantity">Quantity: ${product.quantity}</div>
-          <button class="buy-again-button button-primary">
-            <img class="buy-again-icon" src="images/icons/buy-again.png" />
-            <span class="buy-again-message">Buy it again</span>
-          </button>
-        </div>
-
-        <div class="product-actions">
-          <a href="tracking.html">
-            <button class="track-package-button button-secondary">
+  
+          <div class="product-details">
+            <div class="product-name">
+              ${name}
+            </div>
+            <div class="product-delivery-date">Arriving on: ${finalDeliveryDate}</div>
+            <div class="product-quantity">Quantity: ${product.quantity}</div>
+            <button class="buy-again-button button-primary js-buy-again-button" data-order-id="${orderProductId}">
+              <img class="buy-again-icon" src="images/icons/buy-again.png" />
+              <span class="buy-again-message">Buy it again</span>
+            </button>
+          </div>
+  
+          <div class="product-actions">
+            <a href="tracking.html">
+            </a>
+            <button class="track-package-button js-track-package-button button-secondary" data-order-id="${orderId}" data-cart-item-id="${orderProductId}">
               Track package
             </button>
-          </a>
+          </div>
         </div>
-      </div>
-    `;
-  });
+      `;
+  })
   return itemsplaced;
 }
 

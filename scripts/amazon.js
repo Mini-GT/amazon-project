@@ -1,5 +1,6 @@
 import { addToCart, updateCartQuantity } from "../data/cart.js";
 import { products, loadProducts } from "../data/products.js";
+import { renderCartQuantity } from "./utils/renderHTML.js";
 //import { cart } from "../data/cart.js";
 //import { formatCurrency } from "./utils/money.js";
 
@@ -38,7 +39,7 @@ function renderProductsHTML() {
         </div>
 
         <div class="product-quantity-container">
-          <select class="js-select-value">
+          <select class="js-select-value-${id}">
             <option selected value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -85,15 +86,13 @@ function renderProductsHTML() {
     .forEach((cartItem, index) => {
       cartItem.addEventListener("click", () => {
         const productId = cartItem.dataset.productId;
-        const optionSelectElem = Number(
-          document.querySelector(".js-select-value").value
-        );
+        const optionSelectElem = Number(document.querySelector(`.js-select-value-${productId}`).value);
+        console.log(optionSelectElem)
         addToCart(productId, optionSelectElem);
 
         showAddedImg(index);
 
-        document.querySelector(".js-cart-quantity").innerHTML =
-          updateCartQuantity(cartItem);
+        renderCartQuantity();
         //localStorage.setItem("checkoutItems", JSON.stringify(cart));
       });
     });

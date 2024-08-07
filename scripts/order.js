@@ -1,5 +1,6 @@
 import { loadProductsFetch } from "../data/products.js";
 import { renderOrderHeaderPlacedSummary } from "./order/orderHeaderPlacedSummay.js";
+import { renderOrderDetailPlacedSummary } from "./order/orderDetailPlacedSummary.js";
 import '../data/products.js';
 import '../scripts/order/orderCartQuantity.js'
 
@@ -11,6 +12,7 @@ async function loadPage() {
   }
 
   renderOrderHeaderPlacedSummary();
+  // renderOrderDetailPlacedSummary();
 }
 loadPage();
 
