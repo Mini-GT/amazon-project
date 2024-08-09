@@ -56,16 +56,6 @@ export function renderOrderHeaderPlacedSummary() {
         renderCartQuantity();
       })
     })
-
-  document.querySelectorAll('.js-track-package-button')
-  .forEach((trackBtn) => {
-    trackBtn.addEventListener('click', () => {
-      const orderId = trackBtn.dataset.orderId;
-      const cartId = trackBtn.dataset.cartItemId;
-      console.log(orderId)
-      console.log(cartId)
-    })
-  })
 }
 
  

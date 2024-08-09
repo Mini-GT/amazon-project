@@ -1,25 +1,22 @@
 import { getProduct } from '../../data/products.js';
-import { calculateDeliveryOptions } from '../../data/deliveryOptions.js';
-import { deliveryOptions } from '../../data/deliveryOptions.js';
-import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
-import moment from 'https://cdn.skypack.dev/moment';
+import { formatDate } from '../utils/formatDate.js';
 
 export function renderOrderDetailPlacedSummary(orderProducts, orderId) {
   let itemsplaced = "";
 
     orderProducts.forEach((product) => {
       const estimatedDate = product.estimatedDeliveryTime;
-      const deliveryDate = Number(moment(estimatedDate).format('D'));
-      const dateToday = Number(dayjs().format("D"));
+      const finalDeliveryDate = formatDate(estimatedDate);
+      // const dateToday = Number(dayjs().format("D"));
       
-      const deliveryDays = deliveryDate - dateToday;
-      let semiFinalDeliveryDate = 0;
-      deliveryOptions.forEach((deliveryOption) => {
-        if(deliveryOption.deliveryDays === deliveryDays) {
-          semiFinalDeliveryDate = deliveryOption;
-        }
-      });
-      const finalDeliveryDate = calculateDeliveryOptions(semiFinalDeliveryDate);
+      // const deliveryDays = deliveryDate - dateToday;
+      // let semiFinalDeliveryDate = 0;
+      // deliveryOptions.forEach((deliveryOption) => {
+      //   if(deliveryOption.deliveryDays === deliveryDays) {
+      //     semiFinalDeliveryDate = deliveryOption;
+      //   }
+      // });
+      // const finalDeliveryDate = calculateDeliveryOptions(semiFinalDeliveryDate);
 
       const orderProductId = product.productId;
       const matchingProduct = getProduct(orderProductId);
@@ -46,11 +43,11 @@ export function renderOrderDetailPlacedSummary(orderProducts, orderId) {
           </div>
   
           <div class="product-actions">
-            <a href="tracking.html">
-            </a>
-            <button class="track-package-button js-track-package-button button-secondary" data-order-id="${orderId}" data-cart-item-id="${orderProductId}">
+            <a href="tracking.html?orderId=${orderId}&productId=${orderProductId}">
+              <button class="track-package-button js-track-package-button button-secondary" data-order-id="${orderId}" data-cart-item-id="${orderProductId}">
               Track package
             </button>
+            </a>
           </div>
         </div>
       `;

@@ -112,7 +112,6 @@ export function renderOrderSummary() {
     let html = "";
 
     deliveryOptions.forEach((deliveryOption) => {
-      console.log(deliveryOption)
       const deliveryDate = calculateDeliveryOptions(deliveryOption);
       const deliveryPrice =
         deliveryOption.priceCents === 0
