@@ -46,7 +46,7 @@ export function renderOrderSummary() {
     const matchingProduct = getProduct(productId);
     const deliveryOptionId = cartItem.deliveryOptionId;
     const deliveryOption = getDeliveryOption(deliveryOptionId);
-    const deliveryDate = calculateDeliveryOptions(deliveryOption);
+    const deliveryDate = calculateDeliveryOptions(deliveryOption).format("dddd, MMMM D");
     
     checkoutsHTML += `
       <div class="
@@ -112,7 +112,7 @@ export function renderOrderSummary() {
     let html = "";
 
     deliveryOptions.forEach((deliveryOption) => {
-      const deliveryDate = calculateDeliveryOptions(deliveryOption);
+      const deliveryDate = calculateDeliveryOptions(deliveryOption).format("dddd, MMMM D");
       const deliveryPrice =
         deliveryOption.priceCents === 0
           ? "FREE Shipping"

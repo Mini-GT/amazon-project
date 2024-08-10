@@ -6,7 +6,7 @@ export function renderOrderDetailPlacedSummary(orderProducts, orderId) {
 
     orderProducts.forEach((product) => {
       const estimatedDate = product.estimatedDeliveryTime;
-      const finalDeliveryDate = formatDate(estimatedDate);
+      const finalDeliveryDate = formatDate(estimatedDate).format("dddd, MMMM D");
       // const dateToday = Number(dayjs().format("D"));
       
       // const deliveryDays = deliveryDate - dateToday;

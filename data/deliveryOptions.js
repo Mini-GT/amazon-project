@@ -48,5 +48,6 @@ export function calculateDeliveryOptions(deliveryOption) {
       deliveryDays--;
     }
   }
-  return deliveryDate.format("dddd, MMMM D");
+  return deliveryDate;
+  //.format("dddd, MMMM D");
 }
