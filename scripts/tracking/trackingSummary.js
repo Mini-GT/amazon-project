@@ -2,8 +2,6 @@ import { orderId, productId } from "../tracking.js";
 import { orders } from "../../data/orders.js";
 import { products } from "../../data/products.js";
 import { formatDate } from "../utils/formatDate.js";
-import { calculateDeliveryOptions } from "../../data/deliveryOptions.js";
-import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 export function renderTrackingHtml() {
   if(!orderId || !productId) {
@@ -28,8 +26,6 @@ export function renderTrackingHtml() {
       })
     }
   })
-
-  
   
   // Products from the backend
   let matchingProduct;
