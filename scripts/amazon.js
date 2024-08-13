@@ -12,23 +12,30 @@ function renderProductsHTML() {
   
   document.querySelector(".js-cart-quantity").innerHTML = updateCartQuantity();
 
+  let itemSearched = [];
+
   productsFullDetails.forEach((productItem) => {
     if(productItem.keywords && productItem.keywords.includes(search) || 
     productItem.name.toLowerCase().includes(search)) {
       products.forEach((product) => {
         if(productItem.id === product.id) {
-          console.log(product)
+          itemSearched.push(product)
         }
       })
     }
   })
 
-  
-  // function loadProductsHTML(product) {
+  if(itemSearched.length === 0) {
+    itemSearched = products;
+    loadProductsHTML(itemSearched);
+  } else {
+    loadProductsHTML(itemSearched);
+  }
 
+  function loadProductsHTML(itemSearched) {
     let productsHTML = "";
 
-    products.forEach((product) => {
+    itemSearched.forEach((product) => {
       const { id, image, name, rating, priceCents } = product;
 
       productsHTML += `
@@ -123,19 +130,33 @@ function renderProductsHTML() {
         addedToCart[index].style.opacity = 0;
       }, 3000);
     };
-  // };
+  };
 };
 
 document.querySelector('.js-search-button')
-.addEventListener('click', () => {
+  .addEventListener('click', () => {
+    getInputSearchValue();
+  })
 
-  const searchBtn = document.querySelector('.js-search-bar').value.toLowerCase();
+document.querySelector('.js-search-bar')
+  .addEventListener('keypress', (e) => {
+    switch (e.key) {
+      case 'Enter':
+        getInputSearchValue();
+        break;
+      default:
+        return;
+    }
+  })
 
-  if(searchBtn === '') {
+function getInputSearchValue() {
+  const search = document.querySelector('.js-search-bar').value.toLowerCase();
+
+  if(search === '') {
     window.location.href = `amazon.html`;
     return
   }
-  window.location.href = `amazon.html?search=${searchBtn}`;
-})
+  window.location.href = `amazon.html?search=${search}`;
+}
 
 
