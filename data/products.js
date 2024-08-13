@@ -173,7 +173,7 @@ export function loadProducts(renderProductsHTML) {
 
 
 
-/* export const products = [
+export const productsFullDetails = [
   {
     id: "id1",
     image: "images/products/umbrella.jpg",
@@ -667,12 +667,13 @@ export function loadProducts(renderProductsHTML) {
     priceCents: 2400,
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
-].map((productDetails) => {
-  if (productDetails.type === "clothing") {
-    return new Clothing(productDetails);
-  }
-  if (productDetails.type === "appliance") {
-    return new Appliance(productDetails);
-  }
-  return new Product(productDetails);
-}); */
+];
+// .map((productDetails) => {
+//   if (productDetails.type === "clothing") {
+//     return new Clothing(productDetails);
+//   }
+//   if (productDetails.type === "appliance") {
+//     return new Appliance(productDetails);
+//   }
+//   return new Product(productDetails);
+// });
